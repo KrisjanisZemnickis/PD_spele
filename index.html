@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet opening</title>
     <script src="script1.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 id="myID">Virsraksts</h1>
-    <button id="btn">Poga</button>
+    <h1 id="myID">0</h1>
+    <button id="btn">POGA</button>
     <button id="upgradeBtn">Uzlabot</button>
 </body>
 <script>
@@ -26,7 +27,7 @@
     // btn.addEventListener("click", myFunction)
     let amount = 0
     let bonus = 1
-    let cost = 50
+    let cost = 500
     upgradeBtn.innerHTML = "Upgrade: " + cost
 
     btn.addEventListener("click", () => {
@@ -37,19 +38,16 @@
 
     upgradeBtn.addEventListener("click", () => {
         if (amount >= cost) {
-            bonus += 1
             amount -= cost
             el.innerHTML = amount
-            cost *= 2
             upgradeBtn.innerHTML = "Upgrade: " + cost
+            bonus += 1
+            upgradeBtn.remove();
         }else {
             alert("Nepietiek līdzekļu!")
         }
     })
 
     console.log(el.innerHTML)
-    if(el.innerHTML === "Virsraksts") {
-        console.log("el.innerHTML ir vienads ar Virsraksts")
-    }
 </script>
 </html>
