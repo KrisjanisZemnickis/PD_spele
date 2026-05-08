@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet opening</title>
+    <script src="script1.js"></script>
+</head>
+<body>
+    <h1 id="myID">Virsraksts</h1>
+    <button id="btn">Poga</button>
+    <button id="upgradeBtn">Uzlabot</button>
+</body>
+<script>
+    const el = document.getElementById("myID")
+    const btn = document.getElementById("btn")
+    const upgradeBtn = document.getElementById("upgradeBtn")
+
+    // function myFunction() {
+        // el.innerHTML = "Paskaidrojums"
+        // el.style.color = "red"
+    // }
+
+    //1. Nosacījums (ko gaidam)
+    // 2. Ko daram (funkcija)
+    // btn.addEventListener("click", myFunction)
+    let amount = 0
+    let bonus = 1
+    let cost = 50
+    upgradeBtn.innerHTML = "Upgrade: " + cost
+
+    btn.addEventListener("click", () => {
+        amount += bonus //amount = amount + bonus
+        el.innerHTML = amount
+        el.style.color = "red"
+    })
+
+    upgradeBtn.addEventListener("click", () => {
+        if (amount >= cost) {
+            bonus += 1
+            amount -= cost
+            el.innerHTML = amount
+            cost *= 2
+            upgradeBtn.innerHTML = "Upgrade: " + cost
+        }else {
+            alert("Nepietiek līdzekļu!")
+        }
+    })
+
+    console.log(el.innerHTML)
+    if(el.innerHTML === "Virsraksts") {
+        console.log("el.innerHTML ir vienads ar Virsraksts")
+    }
+</script>
+</html>
