@@ -1,8 +1,16 @@
 body{
     display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-wrap: wrap;
 }
 #myID{
-    color:red
+    color:red;
+    font-family:Arial, Helvetica, sans-serif;
 }
 #btn{
     background-color: red;
@@ -12,4 +20,25 @@ body{
     height:60px;
     font-weight: bold;
     font-size: 100%;
+}
+#btn:hover{
+    cursor: pointer;
+}
+.pogas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#upgradeBtn{
+    background-color: greenyellow;
+    font-size: 100%;
+    font-weight: bold;
+}
+#upgradeBtn:hover{
+    cursor: pointer;
+}
+.olas{
+    width: 250px;
+    height: 250px;
 }
