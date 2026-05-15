@@ -15,7 +15,7 @@
         <div>
             <img class="olas" src="pirmaola-Photoroom.png">
             <img class="olas" src="otraola-Photoroom.png">
-            <img class="olas" src="tresaola-Photoroom.png">
+            <img class="olas" id="Tola" src="tresaola-Photoroom.png">
         </div>
     </div>
 </body>
@@ -24,14 +24,7 @@
     const btn = document.getElementById("btn")
     const upgradeBtn = document.getElementById("upgradeBtn")
 
-    // function myFunction() {
-        // el.innerHTML = "Paskaidrojums"
-        // el.style.color = "red"
-    // }
 
-    //1. Nosacījums (ko gaidam)
-    // 2. Ko daram (funkcija)
-    // btn.addEventListener("click", myFunction)
     let amount = 0
     let bonus = 1
     let cost = 500
@@ -56,5 +49,29 @@
     })
 
     console.log(el.innerHTML)
+
+const eggs = document.querySelectorAll(".olas");
+
+eggs.forEach((egg, index) => {
+    egg.addEventListener("click", () => {
+        hatchPet(index);
+    });
+});
+
+function hatchPet(index) {
+    let pets;
+
+    if (index === 0) {
+        pets = ["Dog 🐶", "Cat 🐱", "Mouse 🐭"];
+    } else if (index === 1) {
+        pets = ["Fox 🦊", "Wolf 🐺", "Bear 🐻"];
+    } else {
+        pets = ["Dragon 🐉", "Phoenix 🔥", "Unicorn 🦄"];
+    }
+
+    const randomPet = pets[Math.floor(Math.random() * pets.length)];
+    document.getElementById("myID").innerHTML = "You got: " + randomPet;
+}
+
 </script>
 </html>
