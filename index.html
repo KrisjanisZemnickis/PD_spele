@@ -9,6 +9,9 @@
 </head>
 <body>
     <h1 id="myID">0</h1>
+    <p class="Cena" id="cena1">100</p>
+    <p class="Cena" id="cena2">500</p>
+    <p class="Cena" id="cena3">1250</p>
     <div class="pogas">
         <button id="btn">POGA</button>
         <button id="upgradeBtn">Uzlabot</button>
@@ -20,18 +23,27 @@
     </div>
 </body>
 <script>
-    const el = document.getElementById("myID")
+        const el = document.getElementById("myID")
     const btn = document.getElementById("btn")
     const upgradeBtn = document.getElementById("upgradeBtn")
-
 
     let amount = 0
     let bonus = 1
     let cost = 500
+    
+    // Kopējie punkti sekundē, ko dos visi tavi mājdzīvnieki
+    let petsPerSecond = 0 
+
     upgradeBtn.innerHTML = "Upgrade: " + cost
 
+    // Taimeris pasīvajiem ienākumiem (izpildās reizi sekundē)
+    setInterval(() => {
+        amount += petsPerSecond;
+        el.innerHTML = amount;
+    }, 1000);
+
     btn.addEventListener("click", () => {
-        amount += bonus //amount = amount + bonus
+        amount += bonus
         el.innerHTML = amount
         el.style.color = "red"
     })
@@ -43,35 +55,61 @@
             upgradeBtn.innerHTML = "Upgrade: " + cost
             bonus += 1
             upgradeBtn.remove();
-        }else {
+        } else {
             alert("Nepietiek līdzekļu!")
         }
     })
 
-    console.log(el.innerHTML)
+    const eggs = document.querySelectorAll(".olas");
 
-const eggs = document.querySelectorAll(".olas");
-
-eggs.forEach((egg, index) => {
-    egg.addEventListener("click", () => {
-        hatchPet(index);
+    eggs.forEach((egg, index) => {
+        egg.addEventListener("click", () => {
+            hatchPet(index);
+        });
     });
-});
 
-function hatchPet(index) {
-    let pets;
+    function hatchPet(index) {
+        let pets;
 
-    if (index === 0) {
-        pets = ["Dog 🐶", "Cat 🐱", "Mouse 🐭"];
-    } else if (index === 1) {
-        pets = ["Fox 🦊", "Wolf 🐺", "Bear 🐻"];
-    } else {
-        pets = ["Dragon 🐉", "Phoenix 🔥", "Unicorn 🦄"];
+        // Katram mājdzīvniekam tagad ir piešķirta sava "value" (punkti sekundē)
+        if (index === 0) {
+            pets = [
+                { name: "Mouse 🐭", value: 1 },
+                { name: "Cat 🐱", value: 2 },
+                { name: "Dog 🐶", value: 3 }
+            ];
+        } else if (index === 1) {
+            pets = [
+                { name: "Fox 🦊", value: 6 },
+                { name: "Wolf 🐺", value: 10 },
+                { name: "Bear 🐻", value: 15 }
+            ];
+        } else {
+            pets = [
+                { name: "Unicorn 🦄", value: 30 },
+                { name: "Phoenix 🔥", value: 50 },
+                { name: "Dragon 🐉", value: 100 }
+            ];
+        }
+
+        const priceElement = document.getElementById("cena" + (index + 1));
+        const price = parseInt(priceElement.innerText);
+
+        if (amount >= price) {
+            amount -= price;
+
+            // Izvēlas nejaušu mājdzīvnieka objektu no saraksta
+            const randomPet = pets[Math.floor(Math.random() * pets.length)];
+            
+            // Pieskaita tieši šī mājdzīvnieka vērtību pie kopējā sekundes bonusa
+            petsPerSecond += randomPet.value; 
+
+            // Parāda ekrānā precīzu mājdzīvnieku un tā sniegto bonusu
+            el.innerHTML = "You got: " + randomPet.name + " (+" + randomPet.value + "/s)";
+        } else {
+            alert("Nepietiek līdzekļu!");
+        }
     }
-
-    const randomPet = pets[Math.floor(Math.random() * pets.length)];
-    document.getElementById("myID").innerHTML = "You got: " + randomPet;
-}
 
 </script>
 </html>

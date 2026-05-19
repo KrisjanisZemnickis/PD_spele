@@ -47,3 +47,22 @@ body{
     opacity: 0.7;
     cursor: pointer;
 }
+.Cena{
+    font-weight: bold;
+    font-size: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#cena1{
+    position: absolute;
+    top:280px;
+    left: 374px;
+}
+#cena2{
+    position: absolute;
+    top:280px;
+}
+#cena3{
+    position: absolute;
+    top:280px;
+    left: 880px;
+}
