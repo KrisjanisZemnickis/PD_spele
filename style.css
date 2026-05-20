@@ -66,3 +66,16 @@ body{
     top:280px;
     left: 880px;
 }
+#petContainer {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pet {
+    padding: 10px;
+    background: lightgreen;
+    border-radius: 10px;
+    font-weight: bold;
+}

@@ -4,112 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet opening</title>
-    <script src="script1.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <h1 id="myID">0</h1>
+
     <p class="Cena" id="cena1">100</p>
     <p class="Cena" id="cena2">500</p>
     <p class="Cena" id="cena3">1250</p>
+
     <div class="pogas">
         <button id="btn">POGA</button>
         <button id="upgradeBtn">Uzlabot</button>
+
         <div>
             <img class="olas" src="pirmaola-Photoroom.png">
             <img class="olas" src="otraola-Photoroom.png">
-            <img class="olas" id="Tola" src="tresaola-Photoroom.png">
+            <img class="olas" src="tresaola-Photoroom.png">
         </div>
     </div>
+
+    <!-- 🐾 TE PARĀDĀS PET -->
+    <div id="petContainer"></div>
+
 </body>
+
 <script>
-        const el = document.getElementById("myID")
-    const btn = document.getElementById("btn")
-    const upgradeBtn = document.getElementById("upgradeBtn")
+const el = document.getElementById("myID")
+const btn = document.getElementById("btn")
+const upgradeBtn = document.getElementById("upgradeBtn")
 
-    let amount = 0
-    let bonus = 1
-    let cost = 500
-    
-    // Kopējie punkti sekundē, ko dos visi tavi mājdzīvnieki
-    let petsPerSecond = 0 
+let amount = 0
+let bonus = 1
+let cost = 500
 
-    upgradeBtn.innerHTML = "Upgrade: " + cost
+let petsPerSecond = 0 
+let showingMessage = false;
 
-    // Taimeris pasīvajiem ienākumiem (izpildās reizi sekundē)
-    setInterval(() => {
-        amount += petsPerSecond;
+// 🐾 SAGLABĀ IEGŪTOS PET
+let ownedPets = [];
+
+upgradeBtn.innerHTML = "Upgrade: " + cost
+
+// ⏱ AUTO INCOME
+setInterval(() => {
+    amount += petsPerSecond;
+
+    if (!showingMessage) {
         el.innerHTML = amount;
-    }, 1000);
+    }
+}, 1000);
 
-    btn.addEventListener("click", () => {
-        amount += bonus
+// 🖱 CLICK
+btn.addEventListener("click", () => {
+    amount += bonus
+    el.innerHTML = amount
+})
+
+// ⬆️ UPGRADE
+upgradeBtn.addEventListener("click", () => {
+    if (amount >= cost) {
+        amount -= cost
         el.innerHTML = amount
-        el.style.color = "red"
-    })
+        bonus += 1
+        upgradeBtn.remove();
+    } else {
+        alert("Nepietiek līdzekļu!")
+    }
+})
 
-    upgradeBtn.addEventListener("click", () => {
-        if (amount >= cost) {
-            amount -= cost
-            el.innerHTML = amount
-            upgradeBtn.innerHTML = "Upgrade: " + cost
-            bonus += 1
-            upgradeBtn.remove();
-        } else {
-            alert("Nepietiek līdzekļu!")
-        }
-    })
+const eggs = document.querySelectorAll(".olas");
 
-    const eggs = document.querySelectorAll(".olas");
-
-    eggs.forEach((egg, index) => {
-        egg.addEventListener("click", () => {
-            hatchPet(index);
-        });
+eggs.forEach((egg, index) => {
+    egg.addEventListener("click", () => {
+        hatchPet(index);
     });
+});
 
-    function hatchPet(index) {
-        let pets;
+// 🐾 PIEVIENO PET UZ EKRĀNA
+function addPetToScreen(pet) {
+    const container = document.getElementById("petContainer");
 
-        // Katram mājdzīvniekam tagad ir piešķirta sava "value" (punkti sekundē)
-        if (index === 0) {
-            pets = [
-                { name: "Mouse 🐭", value: 1 },
-                { name: "Cat 🐱", value: 2 },
-                { name: "Dog 🐶", value: 3 }
-            ];
-        } else if (index === 1) {
-            pets = [
-                { name: "Fox 🦊", value: 6 },
-                { name: "Wolf 🐺", value: 10 },
-                { name: "Bear 🐻", value: 15 }
-            ];
-        } else {
-            pets = [
-                { name: "Unicorn 🦄", value: 30 },
-                { name: "Phoenix 🔥", value: 50 },
-                { name: "Dragon 🐉", value: 100 }
-            ];
-        }
+    const div = document.createElement("div");
+    div.classList.add("pet");
+    div.innerText = pet.name;
 
-        const priceElement = document.getElementById("cena" + (index + 1));
-        const price = parseInt(priceElement.innerText);
+    container.appendChild(div);
+}
 
-        if (amount >= price) {
-            amount -= price;
+// 🥚 GALVENĀ FUNKCIJA
+function hatchPet(index) {
+    let pets;
 
-            // Izvēlas nejaušu mājdzīvnieka objektu no saraksta
-            const randomPet = pets[Math.floor(Math.random() * pets.length)];
-            
-            // Pieskaita tieši šī mājdzīvnieka vērtību pie kopējā sekundes bonusa
-            petsPerSecond += randomPet.value; 
-
-            // Parāda ekrānā precīzu mājdzīvnieku un tā sniegto bonusu
-            el.innerHTML = "You got: " + randomPet.name + " (+" + randomPet.value + "/s)";
-        } else {
-            alert("Nepietiek līdzekļu!");
-        }
+    if (index === 0) {
+        pets = [
+            { name: "Mouse 🐭", value: 1 },
+            { name: "Cat 🐱", value: 2 },
+            { name: "Dog 🐶", value: 3 }
+        ];
+    } else if (index === 1) {
+        pets = [
+            { name: "Fox 🦊", value: 6 },
+            { name: "Wolf 🐺", value: 10 },
+            { name: "Bear 🐻", value: 15 }
+        ];
+    } else {
+        pets = [
+            { name: "Unicorn 🦄", value: 30 },
+            { name: "Phoenix 🔥", value: 50 },
+            { name: "Dragon 🐉", value: 100 }
+        ];
     }
 
+    const priceElement = document.getElementById("cena" + (index + 1));
+    const price = parseInt(priceElement.innerText);
+
+    if (amount >= price) {
+
+        // ❌ FILTRĒ JAU ESOŠOS PET
+        const availablePets = pets.filter(p => !ownedPets.includes(p.name));
+
+        if (availablePets.length === 0) {
+            alert("Visi šie mājdzīvnieki jau iegūti!");
+            return;
+        }
+
+        amount -= price;
+
+        const randomPet = availablePets[Math.floor(Math.random() * availablePets.length)];
+
+        ownedPets.push(randomPet.name); // saglabā
+        petsPerSecond += randomPet.value;
+
+        addPetToScreen(randomPet); // parāda uz ekrāna
+
+        // 🔔 PAZIŅOJUMS
+        showingMessage = true;
+        el.innerHTML = "You got: " + randomPet.name + " (+" + randomPet.value + "/s)";
+
+        setTimeout(() => {
+            showingMessage = false;
+            el.innerHTML = amount;
+        }, 2000);
+
+    } else {
+        alert("Nepietiek līdzekļu!");
+    }
+}
 </script>
 </html>
