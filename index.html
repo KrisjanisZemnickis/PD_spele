@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet opening</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,10 +26,8 @@
         </div>
     </div>
 
-    <!-- 🐾 TE PARĀDĀS PET -->
+    <!-- 🐾 PET -->
     <div id="petContainer"></div>
-
-</body>
 
 <script>
 const el = document.getElementById("myID")
@@ -42,7 +41,7 @@ let cost = 500
 let petsPerSecond = 0 
 let showingMessage = false;
 
-// 🐾 SAGLABĀ IEGŪTOS PET
+// 🐾 SAVĀKTIE PET
 let ownedPets = [];
 
 upgradeBtn.innerHTML = "Upgrade: " + cost
@@ -74,42 +73,68 @@ upgradeBtn.addEventListener("click", () => {
     }
 })
 
+// 🥚 HATCH ANIMĀCIJA
 const eggs = document.querySelectorAll(".olas");
 
 eggs.forEach((egg, index) => {
+
     egg.addEventListener("click", () => {
-        hatchPet(index);
+
+        egg.classList.remove("hatching");
+
+        void egg.offsetWidth;
+
+        egg.classList.add("hatching");
+
+        setTimeout(() => {
+
+            hatchPet(index);
+
+            egg.classList.remove("hatching");
+
+        }, 800);
+
     });
+
 });
 
-// 🐾 PIEVIENO PET UZ EKRĀNA
+// 🐾 PIEVIENO PET
 function addPetToScreen(pet) {
+
     const container = document.getElementById("petContainer");
 
     const div = document.createElement("div");
+
     div.classList.add("pet");
+
     div.innerText = pet.name;
 
     container.appendChild(div);
 }
 
-// 🥚 GALVENĀ FUNKCIJA
+// 🥚 HATCH FUNKCIJA
 function hatchPet(index) {
+
     let pets;
 
     if (index === 0) {
+
         pets = [
             { name: "Mouse 🐭", value: 1 },
             { name: "Cat 🐱", value: 2 },
             { name: "Dog 🐶", value: 3 }
         ];
+
     } else if (index === 1) {
+
         pets = [
             { name: "Fox 🦊", value: 6 },
             { name: "Wolf 🐺", value: 10 },
             { name: "Bear 🐻", value: 15 }
         ];
+
     } else {
+
         pets = [
             { name: "Unicorn 🦄", value: 30 },
             { name: "Phoenix 🔥", value: 50 },
@@ -118,15 +143,18 @@ function hatchPet(index) {
     }
 
     const priceElement = document.getElementById("cena" + (index + 1));
+
     const price = parseInt(priceElement.innerText);
 
     if (amount >= price) {
 
-        // ❌ FILTRĒ JAU ESOŠOS PET
+        // filtrē esošos pet
         const availablePets = pets.filter(p => !ownedPets.includes(p.name));
 
         if (availablePets.length === 0) {
+
             alert("Visi šie mājdzīvnieki jau iegūti!");
+
             return;
         }
 
@@ -134,23 +162,31 @@ function hatchPet(index) {
 
         const randomPet = availablePets[Math.floor(Math.random() * availablePets.length)];
 
-        ownedPets.push(randomPet.name); // saglabā
+        ownedPets.push(randomPet.name);
+
         petsPerSecond += randomPet.value;
 
-        addPetToScreen(randomPet); // parāda uz ekrāna
+        addPetToScreen(randomPet);
 
-        // 🔔 PAZIŅOJUMS
+        // ziņa
         showingMessage = true;
+
         el.innerHTML = "You got: " + randomPet.name + " (+" + randomPet.value + "/s)";
 
         setTimeout(() => {
+
             showingMessage = false;
+
             el.innerHTML = amount;
+
         }, 2000);
 
     } else {
+
         alert("Nepietiek līdzekļu!");
     }
 }
 </script>
+
+</body>
 </html>

@@ -1,81 +1,140 @@
 body{
     display:flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background-image: url('background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    flex-wrap: wrap;
+    justify-content:center;
+    flex-direction:column;
+    align-items:center;
+    background-image:url('background.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+    flex-wrap:wrap;
 }
+
 #myID{
     color:red;
     font-family:Arial, Helvetica, sans-serif;
 }
+
 #btn{
-    background-color: red;
-    color:white ;
-    border-radius: 50%;
-    width: 60px;
+    background-color:red;
+    color:white;
+    border-radius:50%;
+    width:60px;
     height:60px;
-    font-weight: bold;
-    font-size: 100%;
-}
-#btn:hover{
-    cursor: pointer;
-}
-.pogas{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-#upgradeBtn{
-    background-color: greenyellow;
-    font-size: 100%;
-    font-weight: bold;
-}
-#upgradeBtn:hover{
-    cursor: pointer;
-}
-.olas{
-    width: 250px;
-    height: 250px;
-    
-}
-.olas:hover {
-    opacity: 0.7;
-    cursor: pointer;
-}
-.Cena{
-    font-weight: bold;
-    font-size: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-}
-#cena1{
-    position: absolute;
-    top:280px;
-    left: 374px;
-}
-#cena2{
-    position: absolute;
-    top:280px;
-}
-#cena3{
-    position: absolute;
-    top:280px;
-    left: 880px;
-}
-#petContainer {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    font-weight:bold;
+    font-size:100%;
 }
 
-.pet {
-    padding: 10px;
-    background: lightgreen;
-    border-radius: 10px;
-    font-weight: bold;
+#btn:hover{
+    cursor:pointer;
+}
+
+.pogas{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+#upgradeBtn{
+    background-color:greenyellow;
+    font-size:100%;
+    font-weight:bold;
+}
+
+#upgradeBtn:hover{
+    cursor:pointer;
+}
+
+.olas{
+    width:250px;
+    height:250px;
+    cursor:pointer;
+}
+
+/* 🥚 HATCH */
+.hatching{
+    animation:hatch 0.8s linear;
+}
+
+@keyframes hatch{
+
+    0%{
+        transform:rotate(0deg) scale(1);
+    }
+
+    20%{
+        transform:rotate(-20deg) scale(1.1);
+    }
+
+    40%{
+        transform:rotate(20deg) scale(1.1);
+    }
+
+    60%{
+        transform:rotate(-20deg) scale(1.15);
+    }
+
+    80%{
+        transform:rotate(20deg) scale(1.2);
+    }
+
+    100%{
+        transform:scale(0);
+        opacity:0;
+    }
+}
+
+.Cena{
+    font-weight:bold;
+    font-size:100%;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#cena1{
+    position:absolute;
+    top:280px;
+    left:374px;
+}
+
+#cena2{
+    position:absolute;
+    top:280px;
+}
+
+#cena3{
+    position:absolute;
+    top:280px;
+    left:880px;
+}
+
+#petContainer{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.pet{
+    background:gold;
+    padding:10px 15px;
+    border-radius:10px;
+    font-size:20px;
+    color:black;
+
+    animation:pop 0.5s ease;
+}
+
+@keyframes pop{
+
+    0%{
+        transform:scale(0);
+    }
+
+    80%{
+        transform:scale(1.2);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
