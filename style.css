@@ -1,140 +1,250 @@
+/* =======================
+   🌍 BASE LAYOUT
+======================= */
 body{
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+
     display:flex;
-    justify-content:center;
     flex-direction:column;
     align-items:center;
-    background-image:url('background.jpg');
-    background-repeat:no-repeat;
-    background-size:cover;
-    flex-wrap:wrap;
-}
 
-#myID{
-    color:red;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-#btn{
-    background-color:red;
+    background: radial-gradient(circle at top, #3a3a3a, #111);
     color:white;
+}
+
+/* =======================
+   💰 SCORE
+======================= */
+#myID{
+    font-size:60px;
+    color:gold;
+    margin-top:20px;
+    text-shadow:0 0 20px black;
+}
+
+/* =======================
+   🎮 MAIN PANEL
+======================= */
+.pogas{
+    margin-top:20px;
+    background:rgba(0,0,0,0.6);
+    padding:25px;
+    border-radius:20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+
+    box-shadow:0 0 20px black;
+}
+
+/* =======================
+   🔴 CLICK BUTTON
+======================= */
+#btn{
+    width:90px;
+    height:90px;
     border-radius:50%;
-    width:60px;
-    height:60px;
+
+    border:none;
+    background:linear-gradient(red, darkred);
+    color:white;
+
+    font-size:18px;
     font-weight:bold;
-    font-size:100%;
+
+    cursor:pointer;
+    box-shadow:0 0 15px black;
+
+    transition:0.2s;
 }
 
 #btn:hover{
-    cursor:pointer;
+    transform:scale(1.1);
 }
 
-.pogas{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-}
-
+/* =======================
+   🟢 UPGRADE BUTTON
+======================= */
 #upgradeBtn{
-    background-color:greenyellow;
-    font-size:100%;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+
+    background:linear-gradient(limegreen, green);
+    color:black;
+
     font-weight:bold;
+
+    cursor:pointer;
+    transition:0.2s;
 }
 
 #upgradeBtn:hover{
-    cursor:pointer;
+    transform:scale(1.05);
+}
+
+/* =======================
+   🥚 EGGS
+======================= */
+.egg{
+    position:relative;
+    display:inline-block;
+    margin:10px;
 }
 
 .olas{
-    width:250px;
-    height:250px;
+    width:180px;
+    height:180px;
     cursor:pointer;
+    transition:0.2s;
 }
 
-/* 🥚 HATCH */
+.olas:hover{
+    transform:scale(1.08);
+}
+
+/* 💰 PRICE ON EGG */
+.price{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:rgba(0,0,0,0.75);
+    padding:5px 10px;
+    border-radius:10px;
+
+    font-weight:bold;
+    font-size:14px;
+
+    pointer-events:none;
+}
+
+/* =======================
+   🥚 HATCH ANIMATION
+======================= */
 .hatching{
     animation:hatch 0.8s linear;
 }
 
 @keyframes hatch{
-
-    0%{
-        transform:rotate(0deg) scale(1);
-    }
-
-    20%{
-        transform:rotate(-20deg) scale(1.1);
-    }
-
-    40%{
-        transform:rotate(20deg) scale(1.1);
-    }
-
-    60%{
-        transform:rotate(-20deg) scale(1.15);
-    }
-
-    80%{
-        transform:rotate(20deg) scale(1.2);
-    }
-
-    100%{
-        transform:scale(0);
-        opacity:0;
-    }
+    0%{ transform:rotate(0deg) scale(1); }
+    25%{ transform:rotate(-15deg) scale(1.1); }
+    50%{ transform:rotate(15deg) scale(1.15); }
+    75%{ transform:rotate(-10deg) scale(1.2); }
+    100%{ transform:scale(0); opacity:0; }
 }
 
-.Cena{
-    font-weight:bold;
-    font-size:100%;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-#cena1{
-    position:absolute;
-    top:280px;
-    left:374px;
-}
-
-#cena2{
-    position:absolute;
-    top:280px;
-}
-
-#cena3{
-    position:absolute;
-    top:280px;
-    left:880px;
-}
-
+/* =======================
+   🐾 PETS
+======================= */
 #petContainer{
     margin-top:20px;
     display:flex;
-    gap:10px;
     flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
 }
 
 .pet{
-    background:gold;
-    padding:10px 15px;
-    border-radius:10px;
-    font-size:20px;
+    background:linear-gradient(gold, orange);
     color:black;
 
-    animation:pop 0.5s ease;
+    padding:10px 15px;
+    border-radius:12px;
+
+    box-shadow:0 0 10px black;
+    animation:pop 0.4s ease;
 }
 
+/* rarities */
+.pet:nth-child(4n){
+    background:linear-gradient(purple, violet);
+    color:white;
+}
+
+.pet:nth-child(6n){
+    background:linear-gradient(blue, cyan);
+    color:white;
+}
+
+/* =======================
+   ✨ POP ANIMATION
+======================= */
 @keyframes pop{
+    0%{ transform:scale(0); }
+    80%{ transform:scale(1.2); }
+    100%{ transform:scale(1); }
+}
 
-    0%{
-        transform:scale(0);
-    }
+/* =======================
+   📚 PET INDEX
+======================= */
+#petIndex{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+}
 
-    80%{
-        transform:scale(1.2);
-    }
+#petIndex div{
+    background:rgba(0,0,0,0.6);
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+}
 
-    100%{
-        transform:scale(1);
-    }
+/* =======================
+   🔄 REBIRTH
+======================= */
+#rebirthBtn{
+    background:linear-gradient(gold, orange);
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+
+    font-weight:bold;
+    cursor:pointer;
+
+    box-shadow:0 0 10px black;
+}
+
+/* =======================
+   🐉 BOSS
+======================= */
+#bossArea{
+    margin-top:20px;
+    background:rgba(0,0,0,0.7);
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+
+    box-shadow:0 0 15px black;
+}
+
+#bossBtn{
+    background:red;
+    color:white;
+    border:none;
+
+    padding:10px 20px;
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+/* =======================
+   💥 FLOAT TEXT (+1 +2)
+======================= */
+body div{
+    animation:floatUp 0.5s ease;
+}
+
+@keyframes floatUp{
+    0%{ transform:translateY(0); opacity:1; }
+    100%{ transform:translateY(-30px); opacity:0; }
 }

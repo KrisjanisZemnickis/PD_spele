@@ -1,80 +1,316 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Pet opening</title>
 
+
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
+
+
 
     <h1 id="myID">0</h1>
 
-    <p class="Cena" id="cena1">100</p>
-    <p class="Cena" id="cena2">500</p>
-    <p class="Cena" id="cena3">1250</p>
+
+
+
 
     <div class="pogas">
+
         <button id="btn">POGA</button>
+
         <button id="upgradeBtn">Uzlabot</button>
 
+
+
         <div>
-            <img class="olas" src="pirmaola-Photoroom.png">
-            <img class="olas" src="otraola-Photoroom.png">
-            <img class="olas" src="tresaola-Photoroom.png">
+
+            <div class="egg">
+
+    <img class="olas" src="pirmaola-Photoroom.png">
+
+    <span class="price">100</span>
+
+</div>
+
+
+
+<div class="egg">
+
+    <img class="olas" src="otraola-Photoroom.png">
+
+    <span class="price">500</span>
+
+</div>
+
+
+
+<div class="egg">
+
+    <img class="olas" src="tresaola-Photoroom.png">
+
+    <span class="price">1250</span>
+
+</div>
+
         </div>
+
     </div>
 
+
+
     <!-- 🐾 PET -->
+
     <div id="petContainer"></div>
 
+
+
+    <h2>📚 Pet Index</h2>
+
+<div id="petIndex"></div>
+
+
+
+<h2>🔄 Rebirth</h2>
+
+<button id="rebirthBtn">Rebirth (10000)</button>
+
+
+
+<h2>🐉 Boss</h2>
+
+<div id="bossArea">
+
+    <p id="bossHP">Boss HP: 0</p>
+
+    <button id="bossBtn">Spawn Boss</button>
+
+</div>
+
+
+
+
+
 <script>
+
 const el = document.getElementById("myID")
+
 const btn = document.getElementById("btn")
+
 const upgradeBtn = document.getElementById("upgradeBtn")
 
+
+
 let amount = 0
+
 let bonus = 1
+
 let cost = 500
 
+
+
 let petsPerSecond = 0 
+
 let showingMessage = false;
 
+
+
 // 🐾 SAVĀKTIE PET
+
 let ownedPets = [];
 
-upgradeBtn.innerHTML = "Upgrade: " + cost
 
-// ⏱ AUTO INCOME
+
+// =======================
+
+// 💾 SAVE / LOAD
+
+// =======================
+
+function saveGame() {
+
+    localStorage.setItem("gameSave", JSON.stringify({
+
+        amount,
+
+        bonus,
+
+        cost,
+
+        petsPerSecond,
+
+        ownedPets
+
+    }));
+
+}
+
+
+
+function loadGame() {
+
+    const save = JSON.parse(localStorage.getItem("gameSave"));
+
+
+
+    if (save) {
+
+        amount = save.amount;
+
+        bonus = save.bonus;
+
+        cost = save.cost;
+
+        petsPerSecond = save.petsPerSecond;
+
+        ownedPets = save.ownedPets || [];
+
+
+
+        el.innerHTML = Math.floor(amount);
+
+    }
+
+}
+
+
+
+setInterval(saveGame, 2000);
+
+loadGame();
+
+
+
+// =======================
+
+// ⏱ AUTO INCOME (SMOOTH)
+
+// =======================
+
 setInterval(() => {
-    amount += petsPerSecond;
+
+    amount += petsPerSecond / 10;
+
+
 
     if (!showingMessage) {
-        el.innerHTML = amount;
-    }
-}, 1000);
 
-// 🖱 CLICK
-btn.addEventListener("click", () => {
-    amount += bonus
-    el.innerHTML = amount
+        el.innerHTML = Math.floor(amount);
+
+    }
+
+}, 100);
+
+
+
+// =======================
+
+// 🖱 CLICK + EFEKTS
+
+// =======================
+
+btn.addEventListener("click", (e) => {
+
+    amount += bonus;
+
+
+
+    // + efekts
+
+    const plus = document.createElement("div");
+
+    plus.innerText = "+" + bonus;
+
+    plus.style.position = "absolute";
+
+    plus.style.left = e.clientX + "px";
+
+    plus.style.top = e.clientY + "px";
+
+    plus.style.color = "lime";
+
+    plus.style.pointerEvents = "none";
+
+    plus.style.fontWeight = "bold";
+
+
+
+    document.body.appendChild(plus);
+
+    setTimeout(() => plus.remove(), 500);
+
+
+
+    el.innerHTML = Math.floor(amount);
+
 })
 
-// ⬆️ UPGRADE
+
+
+// =======================
+
+// ⬆️ UPGRADE (BEZGALĪGS)
+
+// =======================
+
+function updateUpgradeText() {
+
+    upgradeBtn.innerHTML = "Upgrade: " + cost;
+
+}
+
+updateUpgradeText();
+
+
+
 upgradeBtn.addEventListener("click", () => {
+
     if (amount >= cost) {
-        amount -= cost
-        el.innerHTML = amount
-        bonus += 1
-        upgradeBtn.remove();
+
+        amount -= cost;
+
+        bonus += 1;
+
+
+
+        cost = Math.floor(cost * 1.5); // cena aug
+
+        updateUpgradeText();
+
+
+
+        el.innerHTML = Math.floor(amount);
+
     } else {
-        alert("Nepietiek līdzekļu!")
+
+        alert("Nepietiek līdzekļu!");
+
     }
+
 })
+
+
+
+// =======================
 
 // 🥚 HATCH ANIMĀCIJA
+
+// =======================
+
 const eggs = document.querySelectorAll(".olas");
+
+
 
 eggs.forEach((egg, index) => {
 
@@ -85,6 +321,8 @@ eggs.forEach((egg, index) => {
         void egg.offsetWidth;
 
         egg.classList.add("hatching");
+
+
 
         setTimeout(() => {
 
@@ -98,95 +336,416 @@ eggs.forEach((egg, index) => {
 
 });
 
+
+
+// =======================
+
+// 🎲 RARITY SISTĒMA
+
+// =======================
+
+function getRandomPet(pets) {
+
+    const rand = Math.random();
+
+
+
+    if (rand < 0.6) return pets[0];   // common
+
+    if (rand < 0.9) return pets[1];   // rare
+
+    return pets[2];                   // legendary
+
+}
+
+
+
+// =======================
+
 // 🐾 PIEVIENO PET
+
+// =======================
+
 function addPetToScreen(pet) {
 
     const container = document.getElementById("petContainer");
+
+
 
     const div = document.createElement("div");
 
     div.classList.add("pet");
 
-    div.innerText = pet.name;
+
+
+    div.innerHTML = `
+
+        <strong>${pet.name}</strong><br>
+
+        +${pet.value}/s
+
+    `;
+
+
 
     container.appendChild(div);
+
 }
 
+
+
+// =======================
+
 // 🥚 HATCH FUNKCIJA
+
+// =======================
+
 function hatchPet(index) {
 
+
+
     let pets;
+
+
 
     if (index === 0) {
 
         pets = [
+
             { name: "Mouse 🐭", value: 1 },
+
             { name: "Cat 🐱", value: 2 },
+
             { name: "Dog 🐶", value: 3 }
+
         ];
 
     } else if (index === 1) {
 
         pets = [
+
             { name: "Fox 🦊", value: 6 },
+
             { name: "Wolf 🐺", value: 10 },
+
             { name: "Bear 🐻", value: 15 }
+
         ];
 
     } else {
 
         pets = [
+
             { name: "Unicorn 🦄", value: 30 },
+
             { name: "Phoenix 🔥", value: 50 },
+
             { name: "Dragon 🐉", value: 100 }
+
         ];
+
     }
 
-    const priceElement = document.getElementById("cena" + (index + 1));
 
-    const price = parseInt(priceElement.innerText);
+
+    const priceElement = eggs[index].parentElement.querySelector(".price");
+
+const price = parseInt(priceElement.innerText);
 
     if (amount >= price) {
 
-        // filtrē esošos pet
+
+
         const availablePets = pets.filter(p => !ownedPets.includes(p.name));
+
+
 
         if (availablePets.length === 0) {
 
             alert("Visi šie mājdzīvnieki jau iegūti!");
 
             return;
+
         }
+
+
 
         amount -= price;
 
-        const randomPet = availablePets[Math.floor(Math.random() * availablePets.length)];
+
+
+        const randomPet = getRandomPet(availablePets);
+
+
 
         ownedPets.push(randomPet.name);
 
         petsPerSecond += randomPet.value;
 
+
+
         addPetToScreen(randomPet);
 
+
+
         // ziņa
+
         showingMessage = true;
 
         el.innerHTML = "You got: " + randomPet.name + " (+" + randomPet.value + "/s)";
+
+
 
         setTimeout(() => {
 
             showingMessage = false;
 
-            el.innerHTML = amount;
+            el.innerHTML = Math.floor(amount);
 
         }, 2000);
+
+
 
     } else {
 
         alert("Nepietiek līdzekļu!");
+
     }
+
 }
+
+// =======================
+
+// 📚 PET INDEX
+
+// =======================
+
+const allPetsList = [
+
+    "Mouse 🐭","Cat 🐱","Dog 🐶",
+
+    "Fox 🦊","Wolf 🐺","Bear 🐻",
+
+    "Unicorn 🦄","Phoenix 🔥","Dragon 🐉"
+
+];
+
+
+
+function updatePetIndex() {
+
+    const container = document.getElementById("petIndex");
+
+    container.innerHTML = "";
+
+
+
+    allPetsList.forEach(pet => {
+
+        const div = document.createElement("div");
+
+
+
+        if (ownedPets.includes(pet)) {
+
+            div.innerText = pet + " ✅";
+
+        } else {
+
+            div.innerText = "??? ❌";
+
+        }
+
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+
+// update pēc load
+
+updatePetIndex();
+
+
+
+
+
+// =======================
+
+// 🔄 REBIRTH SISTĒMA
+
+// =======================
+
+let rebirths = 0;
+
+let Cena = 10000;
+
+const rebirthBtn = document.getElementById("rebirthBtn");
+
+
+
+rebirthBtn.addEventListener("click", () => {
+
+    if (amount >= Cena) {
+
+
+
+        rebirths++;
+
+
+
+        amount = 0;
+
+        bonus = 1 + rebirths; // kļūst stiprāks
+
+        petsPerSecond = 0;
+
+        ownedPets = [];
+
+        Cena = Cena * 2
+
+
+
+        document.getElementById("petContainer").innerHTML = "";
+
+
+
+        alert("Rebirth veikts! Tu esi stiprāks!");
+
+
+
+        updatePetIndex();
+
+
+
+    } else {
+
+        alert("Vajag 10000!");
+
+    }
+
+});
+
+
+
+
+
+// =======================
+
+// 🐉 BOSS SISTĒMA
+
+// =======================
+
+let bossHP = 0;
+
+let bossAlive = false;
+
+
+
+const bossBtn = document.getElementById("bossBtn");
+
+const bossHPText = document.getElementById("bossHP");
+
+
+
+// spawn boss
+
+bossBtn.addEventListener("click", () => {
+
+    if (!bossAlive) {
+
+        bossHP = 500 + (rebirths * 200);
+
+        bossAlive = true;
+
+
+
+        bossHPText.innerText = "Boss HP: " + bossHP;
+
+    }
+
+});
+
+
+
+// klikšķi bojā boss
+
+btn.addEventListener("click", () => {
+
+    if (bossAlive) {
+
+        bossHP -= bonus;
+
+
+
+        if (bossHP <= 0) {
+
+            bossAlive = false;
+
+            bossHP = 0;
+
+
+
+            bossHPText.innerText = "Boss defeated!";
+
+
+
+            giveBossPet();
+
+        } else {
+
+            bossHPText.innerText = "Boss HP: " + bossHP;
+
+        }
+
+    }
+
+});
+
+
+
+// 🏆 balva
+
+function giveBossPet() {
+
+
+
+    const bossPet = {
+
+        name: "Boss Dragon 👑🐉",
+
+        value: 200
+
+    };
+
+
+
+    if (!ownedPets.includes(bossPet.name)) {
+
+        ownedPets.push(bossPet.name);
+
+        petsPerSecond += bossPet.value;
+
+
+
+        addPetToScreen(bossPet);
+
+
+
+        alert("Tu ieguvi BOSS PET!");
+
+    }
+
+}
+
 </script>
 
+
+
 </body>
+
 </html>
