@@ -18,21 +18,13 @@
 
 <body>
 
-
-
     <h1 id="myID">0</h1>
-
-
-
-
 
     <div class="pogas">
 
         <button id="btn">POGA</button>
 
         <button id="upgradeBtn">Uzlabot</button>
-
-
 
         <div>
 
@@ -44,8 +36,6 @@
 
 </div>
 
-
-
 <div class="egg">
 
     <img class="olas" src="otraola-Photoroom.png">
@@ -53,8 +43,6 @@
     <span class="price">500</span>
 
 </div>
-
-
 
 <div class="egg">
 
@@ -68,13 +56,9 @@
 
     </div>
 
-
-
     <!-- 🐾 PET -->
 
     <div id="petContainer"></div>
-
-
 
     <h2>📚 Pet Index</h2>
 
@@ -97,9 +81,6 @@
     <button id="bossBtn">Spawn Boss</button>
 
 </div>
-
-
-
 
 
 <script>
@@ -156,13 +137,9 @@ function saveGame() {
 
 }
 
-
-
 function loadGame() {
 
     const save = JSON.parse(localStorage.getItem("gameSave"));
-
-
 
     if (save) {
 
@@ -184,13 +161,9 @@ function loadGame() {
 
 }
 
-
-
 setInterval(saveGame, 2000);
 
 loadGame();
-
-
 
 // =======================
 
@@ -212,8 +185,6 @@ setInterval(() => {
 
 }, 100);
 
-
-
 // =======================
 
 // 🖱 CLICK + EFEKTS
@@ -223,8 +194,6 @@ setInterval(() => {
 btn.addEventListener("click", (e) => {
 
     amount += bonus;
-
-
 
     // + efekts
 
@@ -272,8 +241,6 @@ function updateUpgradeText() {
 
 updateUpgradeText();
 
-
-
 upgradeBtn.addEventListener("click", () => {
 
     if (amount >= cost) {
@@ -287,8 +254,6 @@ upgradeBtn.addEventListener("click", () => {
         cost = Math.floor(cost * 1.5); // cena aug
 
         updateUpgradeText();
-
-
 
         el.innerHTML = Math.floor(amount);
 
@@ -310,8 +275,6 @@ upgradeBtn.addEventListener("click", () => {
 
 const eggs = document.querySelectorAll(".olas");
 
-
-
 eggs.forEach((egg, index) => {
 
     egg.addEventListener("click", () => {
@@ -321,8 +284,6 @@ eggs.forEach((egg, index) => {
         void egg.offsetWidth;
 
         egg.classList.add("hatching");
-
-
 
         setTimeout(() => {
 
@@ -335,8 +296,6 @@ eggs.forEach((egg, index) => {
     });
 
 });
-
-
 
 // =======================
 
@@ -357,8 +316,6 @@ function getRandomPet(pets) {
     return pets[2];                   // legendary
 
 }
-
-
 
 // =======================
 
@@ -386,13 +343,9 @@ function addPetToScreen(pet) {
 
     `;
 
-
-
     container.appendChild(div);
 
 }
-
-
 
 // =======================
 
@@ -446,19 +399,13 @@ function hatchPet(index) {
 
     }
 
-
-
     const priceElement = eggs[index].parentElement.querySelector(".price");
 
 const price = parseInt(priceElement.innerText);
 
     if (amount >= price) {
 
-
-
         const availablePets = pets.filter(p => !ownedPets.includes(p.name));
-
-
 
         if (availablePets.length === 0) {
 
@@ -468,25 +415,15 @@ const price = parseInt(priceElement.innerText);
 
         }
 
-
-
         amount -= price;
 
-
-
         const randomPet = getRandomPet(availablePets);
-
-
 
         ownedPets.push(randomPet.name);
 
         petsPerSecond += randomPet.value;
 
-
-
         addPetToScreen(randomPet);
-
-
 
         // ziņa
 
@@ -530,8 +467,6 @@ const allPetsList = [
 
 ];
 
-
-
 function updatePetIndex() {
 
     const container = document.getElementById("petIndex");
@@ -556,8 +491,6 @@ function updatePetIndex() {
 
         }
 
-
-
         container.appendChild(div);
 
     });
@@ -569,9 +502,6 @@ function updatePetIndex() {
 // update pēc load
 
 updatePetIndex();
-
-
-
 
 
 // =======================
@@ -592,11 +522,7 @@ rebirthBtn.addEventListener("click", () => {
 
     if (amount >= Cena) {
 
-
-
         rebirths++;
-
-
 
         amount = 0;
 
@@ -644,8 +570,6 @@ let bossHP = 0;
 
 let bossAlive = false;
 
-
-
 const bossBtn = document.getElementById("bossBtn");
 
 const bossHPText = document.getElementById("bossHP");
@@ -661,8 +585,6 @@ bossBtn.addEventListener("click", () => {
         bossHP = 500 + (rebirths * 200);
 
         bossAlive = true;
-
-
 
         bossHPText.innerText = "Boss HP: " + bossHP;
 
@@ -680,19 +602,13 @@ btn.addEventListener("click", () => {
 
         bossHP -= bonus;
 
-
-
         if (bossHP <= 0) {
 
             bossAlive = false;
 
             bossHP = 0;
 
-
-
             bossHPText.innerText = "Boss defeated!";
-
-
 
             giveBossPet();
 
@@ -722,19 +638,13 @@ function giveBossPet() {
 
     };
 
-
-
     if (!ownedPets.includes(bossPet.name)) {
 
         ownedPets.push(bossPet.name);
 
         petsPerSecond += bossPet.value;
 
-
-
         addPetToScreen(bossPet);
-
-
 
         alert("Tu ieguvi BOSS PET!");
 
